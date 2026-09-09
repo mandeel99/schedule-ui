@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AuraSchedule • University Schedule</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <!-- Ambient background glow orbs -->
+  <div class="glow-orb orb-1"></div>
+  <div class="glow-orb orb-2"></div>
+  <div class="glow-orb orb-3"></div>
+  <div class="glass-mesh-overlay"></div>
+
+  <div class="app-container">
+    <!-- Header Controls -->
+    <header class="top-nav glass-card">
+      <div class="logo-group">
+        <div class="logo-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+            <line x1="16" y1="2" x2="16" y2="6"></line>
+            <line x1="8" y1="2" x2="8" y2="6"></line>
+            <line x1="3" y1="10" x2="21" y2="10"></line>
+          </svg>
+        </div>
+        <div>
+          <h2 class="brand-title">Aura<span class="gradient-text">Schedule</span></h2>
+          <span class="brand-sub" data-i18n="university">Future University • جامعة المستقبل</span>
+        </div>
+      </div>
+
+      <div class="nav-actions">
+        <button id="todayBtn" class="glass-btn action-btn">
+          <span class="dot-indicator"></span>
+          <span data-i18n="jumpToday">Jump to Today</span>
+        </button>
+        <button id="langToggle" class="glass-btn icon-text-btn" aria-label="Toggle Language">
+          <span id="langLabel">العربية</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- Hero Section with Typewriter Effect -->
+    <section class="hero-section">
+      <div class="hero-badge glass-card">
+        <span class="pulse-dot"></span>
+        <span data-i18n="semesterBadge">1st Semester 1448H • College of CS & Engineering</span>
+      </div>
+
+      <!-- TYPEWRITER HEADING -->
+      <h1 class="typewriter-container">
+        <span id="typewriterText" class="typewriter-text"></span><span class="cursor">|</span>
+      </h1>
+      <p id="heroSubtitle" class="hero-subtitle" data-i18n="heroSubtitle">
+        Explore your weekly university lectures, room locations, and attendance status.
+      </p>
+
+      <!-- Student Profile Card (Glass) -->
+      <div class="student-strip glass-card">
+        <div class="student-avatar">
+          <span>MR</span>
+        </div>
+        <div class="student-details">
+          <div class="student-name-row">
+            <h3 id="studentName">Mohammed Al-Rashidi</h3>
+            <span class="student-id-tag">Software Engineering</span>
+          </div>
+          <p class="student-major" data-i18n="studentMajor">Computer Science • Software Engineering</p>
+        </div>
+        <div class="student-stats">
+          <div class="stat-pill">
+            <span class="stat-val">16</span>
+            <span class="stat-lbl" data-i18n="creditHours">Credit Hours</span>
+          </div>
+          <div class="stat-pill">
+            <span class="stat-val">5</span>
+            <span class="stat-lbl" data-i18n="activeDays">Active Days</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Days Navigation Bar -->
+    <nav class="days-nav-wrapper">
+      <div class="days-nav glass-card" id="daysNav">
+        <!-- Rendered dynamically by app.js -->
+      </div>
+    </nav>
+
+    <!-- Dynamic Day Content Section -->
+    <main class="schedule-main">
+      <!-- Attendance Verdict Banner -->
+      <section id="verdictBanner" class="verdict-banner glass-card">
+        <!-- Injected via JS -->
+      </section>
+
+      <!-- Day Timeline Header -->
+      <div class="timeline-header">
+        <div class="timeline-title-group">
+          <h2 id="currentDayTitle" class="current-day-title">Sunday</h2>
+          <span id="currentDaySessionsCount" class="sessions-badge">5 Sessions</span>
+        </div>
+        <div class="filters-group" id="filterBadges">
+          <!-- Filter info -->
+        </div>
+      </div>
+
+      <!-- Schedule Cards Container -->
+      <div id="scheduleTimeline" class="schedule-timeline">
+        <!-- Injected via JS -->
+      </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="app-footer">
+      <p data-i18n="footerText">Designed with clean glassmorphism & fluid interactions • Made for Mohammed Al-Rashidi</p>
+    </footer>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
