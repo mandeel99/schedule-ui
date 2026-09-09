@@ -742,6 +742,96 @@ function initLiquidRipple() {
   });
 }
 
+// 10. Interactive Liquid Fluid Canvas
+function initLiquidCanvas() {
+  const canvas = document.getElementById('liquidCanvas');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  let width = (canvas.width = window.innerWidth);
+  let height = (canvas.height = window.innerHeight);
+
+  window.addEventListener('resize', () => {
+    width = canvas.width = window.innerWidth;
+    height = canvas.height = window.innerHeight;
+  });
+
+  const fluids = [
+    { x: width * 0.2, y: height * 0.2, r: 320, vx: 0.9, vy: 0.7, color: 'rgba(0, 240, 255, 0.45)' },
+    { x: width * 0.8, y: height * 0.3, r: 380, vx: -0.7, vy: 0.8, color: 'rgba(168, 85, 247, 0.42)' },
+    { x: width * 0.5, y: height * 0.75, r: 420, vx: 0.6, vy: -0.7, color: 'rgba(0, 255, 178, 0.35)' },
+    { x: width * 0.3, y: height * 0.65, r: 350, vx: -0.8, vy: -0.5, color: 'rgba(236, 72, 153, 0.32)' }
+  ];
+
+  let mouseX = width / 2;
+  let mouseY = height / 2;
+  let mouseInfluence = 0;
+
+  window.addEventListener('mousemove', (e) => {
+    mouseX = e.clientX;
+    mouseY = e.clientY;
+    mouseInfluence = 1;
+  });
+
+  function draw() {
+    ctx.clearRect(0, 0, width, height);
+    mouseInfluence *= 0.95;
+
+    fluids.forEach((f) => {
+      f.x += f.vx;
+      f.y += f.vy;
+
+      if (f.x < -f.r / 3 || f.x > width + f.r / 3) f.vx *= -1;
+      if (f.y < -f.r / 3 || f.y > height + f.r / 3) f.vy *= -1;
+
+      if (mouseInfluence > 0.05) {
+        const dx = mouseX - f.x;
+        const dy = mouseY - f.y;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+        if (dist < 450 && dist > 1) {
+          f.x += (dx / dist) * 2 * mouseInfluence;
+          f.y += (dy / dist) * 2 * mouseInfluence;
+        }
+      }
+
+      const grad = ctx.createRadialGradient(f.x, f.y, 0, f.x, f.y, f.r);
+      grad.addColorStop(0, f.color);
+      grad.addColorStop(0.55, f.color.replace(/[\d\.]+\)$/, '0.12)'));
+      grad.addColorStop(1, 'transparent');
+
+      ctx.fillStyle = grad;
+      ctx.beginPath();
+      ctx.arc(f.x, f.y, f.r, 0, Math.PI * 2);
+      ctx.fill();
+    });
+
+    requestAnimationFrame(draw);
+  }
+  draw();
+}
+
+// 11. Interactive 3D Card Tilt & Light Refraction
+function initCard3DTilt() {
+  document.addEventListener('mousemove', (e) => {
+    const cards = document.querySelectorAll('.schedule-card, .verdict-banner, .student-strip');
+    cards.forEach(card => {
+      const rect = card.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+
+      if (x >= -40 && x <= rect.width + 40 && y >= -40 && y <= rect.height + 40) {
+        const centerX = rect.width / 2;
+        const centerY = rect.height / 2;
+        const rotateX = ((y - centerY) / centerY) * -3.5;
+        const rotateY = ((x - centerX) / centerX) * 3.5;
+
+        card.style.transform = `perspective(1000px) rotateX(${rotateX.toFixed(2)}deg) rotateY(${rotateY.toFixed(2)}deg) translateY(-3px) scale(1.008)`;
+      } else {
+        card.style.transform = '';
+      }
+    });
+  });
+}
+
 // Setup Event Listeners
 document.addEventListener('DOMContentLoaded', () => {
   initTypewriter();
@@ -749,6 +839,8 @@ document.addEventListener('DOMContentLoaded', () => {
   jumpToToday();
   initLiquidCursor();
   initLiquidRipple();
+  initLiquidCanvas();
+  initCard3DTilt();
 
   document.getElementById('langToggle').addEventListener('click', toggleLanguage);
   document.getElementById('todayBtn').addEventListener('click', jumpToToday);
