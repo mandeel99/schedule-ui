@@ -688,11 +688,67 @@ function jumpToToday() {
   selectDay(targetDay);
 }
 
+// 8. Liquid Cursor Follower
+function initLiquidCursor() {
+  const cursor = document.getElementById('liquidCursor');
+  if (!cursor) return;
+
+  let mouseX = window.innerWidth / 2;
+  let mouseY = window.innerHeight / 2;
+  let currentX = mouseX;
+  let currentY = mouseY;
+
+  window.addEventListener('mousemove', (e) => {
+    mouseX = e.clientX;
+    mouseY = e.clientY;
+    cursor.style.opacity = '1';
+  });
+
+  document.addEventListener('mouseleave', () => {
+    cursor.style.opacity = '0';
+  });
+
+  function animate() {
+    currentX += (mouseX - currentX) * 0.12;
+    currentY += (mouseY - currentY) * 0.12;
+    cursor.style.left = `${currentX}px`;
+    cursor.style.top = `${currentY}px`;
+    requestAnimationFrame(animate);
+  }
+  animate();
+}
+
+// 9. Fluid Ripple Micro-interaction
+function initLiquidRipple() {
+  document.addEventListener('click', (e) => {
+    const target = e.target.closest('.glass-btn, .day-tab, .schedule-card');
+    if (!target) return;
+
+    const circle = document.createElement('span');
+    const diameter = Math.max(target.clientWidth, target.clientHeight);
+    const radius = diameter / 2;
+    const rect = target.getBoundingClientRect();
+
+    circle.style.width = circle.style.height = `${diameter}px`;
+    circle.style.left = `${e.clientX - rect.left - radius}px`;
+    circle.style.top = `${e.clientY - rect.top - radius}px`;
+    circle.className = 'liquid-ripple';
+
+    const existingRipple = target.querySelector('.liquid-ripple');
+    if (existingRipple) existingRipple.remove();
+
+    target.appendChild(circle);
+    setTimeout(() => circle.remove(), 650);
+  });
+}
+
 // Setup Event Listeners
 document.addEventListener('DOMContentLoaded', () => {
   initTypewriter();
   renderDaysNav();
   jumpToToday();
+  initLiquidCursor();
+  initLiquidRipple();
 
   document.getElementById('langToggle').addEventListener('click', toggleLanguage);
   document.getElementById('todayBtn').addEventListener('click', jumpToToday);
